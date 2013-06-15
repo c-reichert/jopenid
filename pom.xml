@@ -20,9 +20,9 @@
     </license>
   </licenses>
   <scm>
-    <connection>scm:svn:http://jopenid.googlecode.com/svn/trunk/</connection>
-    <developerConnection>scm:svn:https://jopenid.googlecode.com/svn/trunk/</developerConnection>
-    <url>http://jopenid.googlecode.com/svn/trunk/</url>
+    <connection>scm:git:git@github.com:pawelniewie/jopenid.git</connection>
+    <developerConnection>scm:git:git@github.com:pawelniewie/jopenid.git</developerConnection>
+    <url>http://github.com/pawelniewie/jopenid</url>
   </scm>
   <developers>
     <developer>

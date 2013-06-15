@@ -225,6 +225,18 @@ public class OpenIdManager {
         return endpoint;
     }
 
+    /**
+     * Lookup end point by name or full URL.
+     */
+    public Endpoint lookupEndpoint(String url, String alias) {
+        Endpoint endpoint = endpointCache.get(url);
+        if (endpoint!=null && !endpoint.isExpired())
+            return endpoint;
+        endpoint = requestEndpoint(url, alias==null ? Endpoint.DEFAULT_ALIAS : alias);
+        endpointCache.put(url, endpoint);
+        return endpoint;
+    }
+
     public Association lookupAssociation(Endpoint endpoint) {
         Association assoc = associationCache.get(endpoint);
         if (assoc!=null && !assoc.isExpired())
