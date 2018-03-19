@@ -6,7 +6,7 @@ JOpenID is an OpenID 2.0 Java 5 implementation for OpenID sign on.
 
 JOpenID is a very lightweight implementation for OpenID 2.0, about 50KB including source & binary.
 
-JOpenID only needs JDK 1.5 (or above) and Servlet 2.3 (or above).
+JOpenID only needs JDK 1.8 (or above) and Servlet 2.3 (or above).
 
 JOpenID is free, with Apache License.
 
@@ -38,3 +38,5 @@ Add this to your `pom.xml`:
     <version>1.11</version>
 </dependency>
 ```
+
+Check the current version in [mvn-repo branch](https://github.com/pawelniewie/jopenid/tree/mvn-repo/com/pawelniewiadomski/jopenid)
