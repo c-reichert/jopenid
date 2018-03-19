@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.pawelniewiadomski</groupId>
@@ -8,7 +9,7 @@
     <name>JOpenId</name>
     <version>1.12-SNAPSHOT</version>
     <description>Java client library for OpenID</description>
-    <url>http://code.google.com/p/jopenid/</url>
+    <url>https://github.com/pawelniewie/jopenid</url>
 
     <licenses>
         <license>
@@ -22,8 +23,8 @@
         <connection>scm:git:git@github.com:pawelniewie/jopenid.git</connection>
         <developerConnection>scm:git:git@github.com:pawelniewie/jopenid.git</developerConnection>
         <url>http://github.com/pawelniewie/jopenid</url>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
 
     <distributionManagement>
         <repository>
@@ -152,7 +153,9 @@
                     <noJekyll>true</noJekyll>
                     <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
                     <branch>refs/heads/mvn-repo</branch>
-                    <includes><include>**/*</include></includes>
+                    <includes>
+                        <include>**/*</include>
+                    </includes>
                     <repositoryName>jopenid</repositoryName>
                     <repositoryOwner>pawelniewie</repositoryOwner>
                 </configuration>
