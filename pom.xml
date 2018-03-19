@@ -6,7 +6,7 @@
     <packaging>jar</packaging>
 
     <name>JOpenId</name>
-    <version>1.11</version>
+    <version>1.12-SNAPSHOT</version>
     <description>Java client library for OpenID</description>
     <url>http://code.google.com/p/jopenid/</url>
 
@@ -22,7 +22,7 @@
         <connection>scm:git:git@github.com:pawelniewie/jopenid.git</connection>
         <developerConnection>scm:git:git@github.com:pawelniewie/jopenid.git</developerConnection>
         <url>http://github.com/pawelniewie/jopenid</url>
-      <tag>jopenid-1.11</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <distributionManagement>
