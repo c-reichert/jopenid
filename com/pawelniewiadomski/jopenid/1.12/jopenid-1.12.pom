@@ -6,9 +6,9 @@
     <packaging>jar</packaging>
 
     <name>JOpenId</name>
-    <version>1.11</version>
+    <version>1.12</version>
     <description>Java client library for OpenID</description>
-    <url>http://code.google.com/p/jopenid/</url>
+    <url>https://github.com/pawelniewie/jopenid</url>
 
     <licenses>
         <license>
@@ -22,8 +22,8 @@
         <connection>scm:git:git@github.com:pawelniewie/jopenid.git</connection>
         <developerConnection>scm:git:git@github.com:pawelniewie/jopenid.git</developerConnection>
         <url>http://github.com/pawelniewie/jopenid</url>
-      <tag>jopenid-1.11</tag>
-  </scm>
+        <tag>jopenid-1.12</tag>
+    </scm>
 
     <distributionManagement>
         <repository>
@@ -152,7 +152,9 @@
                     <noJekyll>true</noJekyll>
                     <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
                     <branch>refs/heads/mvn-repo</branch>
-                    <includes><include>**/*</include></includes>
+                    <includes>
+                        <include>**/*</include>
+                    </includes>
                     <repositoryName>jopenid</repositoryName>
                     <repositoryOwner>pawelniewie</repositoryOwner>
                 </configuration>
