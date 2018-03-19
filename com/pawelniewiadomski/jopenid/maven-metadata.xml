@@ -3,9 +3,10 @@
   <groupId>com.pawelniewiadomski</groupId>
   <artifactId>jopenid</artifactId>
   <versioning>
+    <release>1.11</release>
     <versions>
-      <version>1.12-SNAPSHOT</version>
+      <version>1.11</version>
     </versions>
-    <lastUpdated>20180319141327</lastUpdated>
+    <lastUpdated>20180319151434</lastUpdated>
   </versioning>
 </metadata>
