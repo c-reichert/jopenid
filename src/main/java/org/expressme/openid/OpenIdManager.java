@@ -85,19 +85,11 @@ public class OpenIdManager {
      */
     public Authentication getAuthentication(HttpServletRequest request, byte[] key, String alias) {
         // verify:
-        String identity = request.getParameter("openid.identity");
-        if (identity==null)
-            throw new OpenIdException("Missing 'openid.identity'.");
-        if (request.getParameter("openid.invalidate_handle")!=null)
-            throw new OpenIdException("Invalidate handle.");
-        String sig = request.getParameter("openid.sig");
-        if (sig==null)
-            throw new OpenIdException("Missing 'openid.sig'.");
-        String signed = request.getParameter("openid.signed");
-        if (signed==null)
-            throw new OpenIdException("Missing 'openid.signed'.");
-        if (!returnTo.equals(request.getParameter("openid.return_to")))
-            throw new OpenIdException("Bad 'openid.return_to'.");
+        checkInvalidateHandle(request);
+        String sig = getSig(request);
+        String signed = getSigned(request);
+        checkReturnTo(request);
+
         // check sig:
         String[] params = signed.split("[\\,]+");
         StringBuilder sb = new StringBuilder(1024);
@@ -109,13 +101,15 @@ public class OpenIdManager {
                 sb.append(value);
             sb.append('\n');
         }
-        String hmac = getHmacSha1(sb.toString(), key);
-        if (!safeEquals(sig, hmac))
-            throw new OpenIdException("Verify signature failed.");
 
-        // set auth:
+        validateHmac(sb.toString(), key, sig);
+
+        return fillInAuthentication(request, alias);
+    }
+
+    protected Authentication fillInAuthentication(HttpServletRequest request, String alias) {
         Authentication auth = new Authentication();
-        auth.setIdentity(identity);
+        auth.setIdentity(getIdentity(request));
         auth.setEmail(request.getParameter("openid." + alias + ".value.email"));
         auth.setLanguage(request.getParameter("openid." + alias + ".value.language"));
         auth.setGender(request.getParameter("openid." + alias + ".value.gender"));
@@ -123,6 +117,46 @@ public class OpenIdManager {
         auth.setFirstname(getFirstname(request, alias));
         auth.setLastname(getLastname(request, alias));
         return auth;
+    }
+
+    protected void checkReturnTo(HttpServletRequest request) {
+        if (!returnTo.equals(request.getParameter("openid.return_to")))
+            throw new OpenIdException("Bad 'openid.return_to'.");
+    }
+
+    protected void checkInvalidateHandle(HttpServletRequest request) {
+        if (request.getParameter("openid.invalidate_handle")!=null)
+            throw new OpenIdException("Invalidate handle.");
+    }
+
+    protected String getSigned(HttpServletRequest request) {
+        String signed = request.getParameter("openid.signed");
+        if (signed==null)
+            throw new OpenIdException("Missing 'openid.signed'.");
+        return signed;
+    }
+
+    protected String getSig(HttpServletRequest request) {
+        String sig = request.getParameter("openid.sig");
+        if (sig==null)
+            throw new OpenIdException("Missing 'openid.sig'.");
+        return sig;
+    }
+
+    protected String getIdentity(HttpServletRequest request) {
+        String identity = request.getParameter("openid.identity");
+        if (identity==null)
+            throw new OpenIdException("Missing 'openid.identity'.");
+        return identity;
+    }
+
+    void validateHmac(String data, byte[] key, String sig) {
+        //key may be null when association is not supported
+        if(key != null) {
+            String hmac = getHmacSha1(data, key);
+            if (!safeEquals(sig, hmac))
+                throw new OpenIdException("Verify signature failed.");
+        }
     }
 
     boolean safeEquals(String s1, String s2) {
@@ -237,12 +271,19 @@ public class OpenIdManager {
         return endpoint;
     }
 
+    /**
+     * Lookup association.
+     * @param endpoint
+     * @return association or <code>NULL</code> when association not supported by openId provider
+     */
     public Association lookupAssociation(Endpoint endpoint) {
         Association assoc = associationCache.get(endpoint);
         if (assoc!=null && !assoc.isExpired())
             return assoc;
         assoc = requestAssociation(endpoint);
-        associationCache.put(endpoint, assoc);
+        if(assoc != null) {
+            associationCache.put(endpoint, assoc);
+        }
         return assoc;
     }
 
@@ -252,9 +293,12 @@ public class OpenIdManager {
           .append(endpoint.getUrl().contains("?") ? '&' : '?')
           .append(getAuthQuery(endpoint.getAlias()))
           .append("&openid.return_to=")
-          .append(returnToUrlEncode)
-          .append("&openid.assoc_handle=")
-          .append(association.getAssociationHandle());
+          .append(returnToUrlEncode);
+
+        if(association != null)
+            sb.append("&openid.assoc_handle=")
+                    .append(association.getAssociationHandle());
+
         if (realm!=null)
             sb.append("&openid.realm=").append(realm);
         return sb.toString();
@@ -315,6 +359,15 @@ public class OpenIdManager {
                     else if ("expires_in".equals(key)) {
                         long maxAge = Long.parseLong(value);
                         assoc.setMaxAge(maxAge * 900L); // 90%
+                    }
+                    else if ("error_code".equals(key)) {
+                        if("unsupported-type".equals(value)) {
+                            //associations are not supported on openId server
+                            return null;
+                        }
+                        else {
+                            throw new OpenIdException("Unknown error code returned requesting association. Code: " + value);
+                        }
                     }
                 }
             }
