@@ -15,3 +15,26 @@ JOpenID is very simple to use. See Wiki for more details.
 JOpenID is now in the list of Java libraries on openid.net. You can download or use it in Maven.
 
 It's still open for pull requests and other improvements.
+
+# How to use it
+
+Add this to your `pom.xml`:
+
+```xml
+<repository>
+    <id>pawelniewie-jopenid-mvn-repo</id>
+    <url>https://raw.github.com/pawelniewie/jopenid/mvn-repo/</url>
+    <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+    </snapshots>
+</repository>
+```
+
+```xml
+<dependency>
+    <groupId>com.pawelniewiadomski</groupId>
+    <artifactId>jopenid</artifactId>
+    <version>1.11</version>
+</dependency>
+```
