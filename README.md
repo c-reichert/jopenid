@@ -8,9 +8,9 @@ JOpenID is a very lightweight implementation for OpenID 2.0, about 50KB includin
 
 JOpenID only needs JDK 1.8 (or above) and Servlet 2.3 (or above).
 
-JOpenID is free, with Apache License.
+JOpenID is free, with [Apache License](https://www.apache.org/licenses/LICENSE-2.0).
 
-JOpenID is very simple to use. See Wiki for more details.
+JOpenID is very simple to use. See [Wiki](https://code.google.com/archive/p/jopenid/wikis) for more details.
 
 JOpenID is now in the list of Java libraries on openid.net. You can download or use it in Maven.
 
